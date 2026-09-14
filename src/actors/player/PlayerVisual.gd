@@ -103,6 +103,12 @@ var _dash_ghost: DashGhost
 ## 没有它，二段跳动画播一帧就会被 update_look 用速度算出的 jump 切走。
 ## -1 表示没有强制。
 var _forced_look: int = -1
+## 攻击动画的强制标记。与 _forced_look 分开的原因：解除条件不同。
+## 二段跳的强制"落地即解除"（空中动作，落地就不再有意义）；
+## 攻击在地面触发，on_floor 恒 true，若共用会被立即解除，
+## 动画播一半就切回 idle（表现就是"只播了抬腿"）。攻击的强制
+## 只认"动画播完"，或被受击/死亡打断（见 trigger_attack）。
+var _attack_forced: bool = false
 
 
 func _ready() -> void:
@@ -217,6 +223,12 @@ func update_look(state: int, velocity: Vector2, on_floor: bool, input_x: float) 
 			_apply(_forced_look as Look, false)
 			return
 
+	# 攻击动画强制播完（逻辑状态 0.36s 就结束并恢复操作，演出不受其拖拽；
+	# 被打断时由打断方调用 cancel_attack_forced 解除）。
+	if _attack_forced:
+		_apply(Look.ATTACK, false)
+		return
+
 	var next: Look = Look.IDLE
 
 	match state:
@@ -252,9 +264,25 @@ func trigger_double_jump() -> void:
 	_apply(Look.DOUBLE_JUMP, true)
 
 
+## 触发攻击动画：强制播完整条 attack（one-shot），播完自动回落常规外观。
+## 逻辑上攻击状态只持续 0.36s（前摇+判定+后摇），远短于动画时长；
+## 不加这个强制的话动画播一半就被 update_look 切回 idle/run。
+## 与 trigger_double_jump 的区别：攻击在地面触发，"落地解除"永远成立，
+## 所以这里只认"动画播完"，另给受击/死亡提供 cancel 入口。
+func trigger_attack() -> void:
+	_attack_forced = true
+	_apply(Look.ATTACK, true)
+
+
+## 外观层面的攻击动画被打断（受击硬直、死亡等）时由 Player 调用。
+func cancel_attack_forced() -> void:
+	_attack_forced = false
+
+
 func _on_anim_finished() -> void:
 	# 本次强制的 one-shot 播完了，恢复正常外观逻辑（由 update_look 接管）。
 	_forced_look = -1
+	_attack_forced = false
 
 
 func _apply(look: Look, force: bool) -> void:

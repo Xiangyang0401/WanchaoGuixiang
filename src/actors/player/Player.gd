@@ -225,6 +225,10 @@ func _try_jump() -> void:
 		velocity.y = profile.double_jump_velocity()
 		_air_jumps_used += 1
 		_jump_buffer_timer = 0.0
+		# 二段跳刷新冲刺额度：第二段滞空仍可用 shift 突进。
+		# 否则"空中冲刺过沟 → 二段跳续力 → 再冲刺"的连招走不通，
+		# 一次滞空只有一段冲刺可用，二段跳的后半程手感是断的。
+		_dash_available = true
 		# 视觉：让外观播一遍二段跳动画（播完/落地自动恢复常规外观）。
 		if sprite != null:
 			sprite.trigger_double_jump()
@@ -340,6 +344,9 @@ func _enter_attack() -> void:
 	_attack_timer = profile.attack_windup
 	attack_pivot.scale.x = facing
 	_change_state(State.ATTACKING)
+	# 视觉：攻击动画强制播完整条（逻辑状态 0.36s 就结束，演出不跟着被掐断）。
+	if sprite != null:
+		sprite.trigger_attack()
 	EventBus.ability_used.emit(Abilities.CLEAVE)
 
 
@@ -460,12 +467,18 @@ func _on_damaged(info: DamageInfo) -> void:
 	if state == State.ATTACKING:
 		attack_hitbox.deactivate()
 
+	# 攻击动画被打断：受击硬直的 HURT 外观要立即可见，解除攻击强制。
+	if sprite != null:
+		sprite.cancel_attack_forced()
+
 	_hitstun_timer = profile.hitstun_duration
 	_change_state(State.HITSTUN)
 
 
 func _on_died() -> void:
 	attack_hitbox.deactivate()
+	if sprite != null:
+		sprite.cancel_attack_forced()
 	_change_state(State.DEAD)
 	EventBus.player_died.emit()
 

@@ -65,13 +65,17 @@ extends Resource
 
 @export_group("攻击")
 ## 一次挥砍从按下到判定生效的前摇（秒）。
-@export var attack_windup: float = 0.06
-## 判定持续时间（秒）。
-@export var attack_active: float = 0.12
-## 判定结束到可以再次攻击的后摇（秒）。
-@export var attack_recovery: float = 0.18
-## 攻击时是否锁住水平移动。
-@export var attack_locks_movement: bool = false
+## 与攻击动画（BuildAnimations.gd 的 ATTACK_DURATIONS）对齐：
+## 0.35s 是蓄势段播完、剑开始刺出的时刻——判定跟着视觉走，
+## 否则剑还没伸出去伤害就结算了，打击感是错的。
+@export var attack_windup: float = 0.35
+## 判定持续时间（秒）。对齐动画刺出段（0.25s）。
+@export var attack_active: float = 0.25
+## 判定结束到可以再次攻击的后摇（秒）。对齐动画收招段（0.33s）。
+@export var attack_recovery: float = 0.33
+## 攻击时是否锁住水平移动。出招全程锁死：提膝蓄势是单腿站姿，
+## 移动会破坏姿态演出，也符合"出招硬直"的常规手感。
+@export var attack_locks_movement: bool = true
 ## 攻击时的移动速度倍率（未锁死时生效）。
 @export_range(0.0, 1.0) var attack_move_multiplier: float = 0.5
 
