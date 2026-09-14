@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cq2playerframes1"]
 
 [ext_resource type="Texture2D" path="res://assets/animation/player_idle_crop/001.png" id="1_f1"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_idle_crop/002.png" id="2_f2"]
@@ -59,15 +59,6 @@
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_start_crop/050.png" id="102_i3r55"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_start_crop/051.png" id="103_60pm3"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_start_crop/052.png" id="104_2ote8"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/001.png" id="dj1"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/002.png" id="dj2"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/003.png" id="dj3"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/004.png" id="dj4"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/005.png" id="dj5"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/006.png" id="dj6"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/007.png" id="dj7"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/008.png" id="dj8"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_dj_crop/009.png" id="dj9"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_fall_crop/001.png" id="fall1"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_fall_crop/002.png" id="fall2"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_fall_crop/003.png" id="fall3"]
@@ -84,26 +75,6 @@
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_fall_crop/014.png" id="fall14"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_fall_crop/015.png" id="fall15"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_jump_fall_crop/016.png" id="fall16"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/001.png" id="jump1"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/002.png" id="jump2"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/003.png" id="jump3"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/004.png" id="jump4"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/005.png" id="jump5"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/006.png" id="jump6"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/007.png" id="jump7"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/008.png" id="jump8"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/009.png" id="jump9"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/010.png" id="jump10"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/011.png" id="jump11"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/012.png" id="jump12"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/013.png" id="jump13"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/014.png" id="jump14"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/015.png" id="jump15"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/016.png" id="jump16"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/017.png" id="jump17"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/018.png" id="jump18"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/019.png" id="jump19"]
-[ext_resource type="Texture2D" path="res://assets/animation/player_jump_jump_crop/020.png" id="jump20"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_run_crop/001.png" id="r1"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_run_crop/002.png" id="r2"]
 [ext_resource type="Texture2D" path="res://assets/animation/player_run_crop/003.png" id="r3"]
@@ -137,38 +108,6 @@ animations = [{
 "loop": true,
 "name": &"dash",
 "speed": 16.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("dj1")
-}, {
-"duration": 1.0,
-"texture": ExtResource("dj2")
-}, {
-"duration": 1.0,
-"texture": ExtResource("dj3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("dj4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("dj5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("dj6")
-}, {
-"duration": 1.0,
-"texture": ExtResource("dj7")
-}, {
-"duration": 1.0,
-"texture": ExtResource("dj8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("dj9")
-}],
-"loop": false,
-"name": &"double_jump",
-"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -287,71 +226,6 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("jump1")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump2")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump6")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump7")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump9")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump10")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump11")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump12")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump13")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump14")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump15")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump16")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump17")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump18")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump19")
-}, {
-"duration": 1.0,
-"texture": ExtResource("jump20")
-}],
-"loop": false,
-"name": &"jump",
-"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,

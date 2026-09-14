@@ -150,7 +150,7 @@ Write-Output \"白=\$([Math]::Round(100*\$w/\$n,2))% 透明=\$([Math]::Round(100
    基准，因为 `get_animation_names()` 返回排序数组，新加动画会改变
    "第一个"，scale 就漂了。
 8. **素材目录里源和产物必须分目录**（`player_jump` vs
-   `player_jump_jump_crop`），处理脚本清空输出目录重建，混目录会删源帧。
+   `player_jump_start_crop`），处理脚本清空输出目录重建，混目录会删源帧。
 
 ## 快速 Checklist：新增一个动作
 
@@ -163,6 +163,54 @@ Write-Output \"白=\$([Math]::Round(100*\$w/\$n,2))% 透明=\$([Math]::Round(100
 - [ ] `PlayerVisual.gd` 的 `_ANIM` 表加映射（+`_FALLBACK` 降级 + 视需要加 trigger）
 - [ ] 画布高度不在 645~702 区间 → 回查帧处理规格
 - [ ] SelfTest 全过，游戏里实测脚底对齐（不浮空不陷入）
+
+## 目录结构约定
+
+`assets/animation/` 下按后缀分三类，后缀即用途：
+
+| 形态 | 含义 | 角色 |
+|---|---|---|
+| `<动作名>/` | 原始素材（AI 视频抽帧） | 处理脚本的输入，**永不写入** |
+| `<动作名>_clean/` | 抠像/去底后的中间态 | Python 工具链的输入与输出 |
+| `<动作名>_crop/` | 最终产物（统一画布、脚底对齐） | SpriteFrames 引用的是这一层 |
+
+当前实际存在的目录：
+
+```
+assets/animation/
+├── player_idle/  player_idle_clean/  player_idle_crop/
+├── player_run/   player_run_clean/   player_run_crop/
+├── player_jump/                      # 60 帧总源，一段跳/二段跳都从这里挑帧
+│   ├── player_jump_start_crop/       # 一段跳（12 帧）
+│   └── player_jump_air_crop/         # 二段跳（27 帧）
+└── player_jump_fall/  player_jump_fall_crop/     # 下落（16 帧）
+```
+
+注意 `_crop` 不一定有同名的源目录：`player_jump_start_crop` 的源是
+`player_jump`（**一个源可以切出多个动作**），命名只表达产物本身。
+另外 jump 系列没有 `_clean` —— 它们走 Godot 工具链一次成型（去白底 + 去烟雾
+都在 `BuildJumpFrames.gd` 里完成），不需要 Python 的中间态。
+
+## 流水线演进（为什么现在只有一套工具）
+
+跳跃动画做过两轮，工具与产物都换过：
+
+| | 第一轮（已废弃） | 第二轮（当前） |
+|---|---|---|
+| 工具 | `tools/crop_jump_segments.py` → `gen_spriteframes.py` | `src/tools/BuildJumpFrames.gd` → `BuildAnimations.gd` |
+| 一段跳 | 动画名 `jump`，20 帧 | 动画名 `jump_start`，12 帧 |
+| 二段跳 | 动画名 `double_jump`，9 帧 | 动画名 `jump_air`，27 帧 |
+| 帧对齐 | 底部中心锚点，三段共用一张画布 | 组内包围盒并集，一组一个裁剪窗口 |
+| 去烟雾 | 无（Python 只做抠像） | 形态学开运算 + 最大连通域 |
+
+`PlayerVisual` 的 `_ANIM` 表改指向第二轮后，第一轮的两个动画即停用，
+其目录与产物已一并清理（2026-09）。`fall` 是唯一未被替换的动作，
+第二轮沿用同一个产出目录 `player_jump_fall_crop`。
+
+> `player_frames.tres` 现在的维护方式：日常靠 Godot 编辑器改；
+> 批量追加新动作走 `BuildAnimations.gd`。删除动画建议也用 Godot
+> 脚本加载再保存（`ResourceSaver` 会自动丢弃不再被引用的 ext_resource），
+> 手改 `.tres` 极易漏删导致加载报错。
 
 ## 过程记录
 
