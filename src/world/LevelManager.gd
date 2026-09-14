@@ -19,8 +19,8 @@ signal level_changed(level_id: StringName)
 @export var player_scene: PackedScene
 @export var camera_scene: PackedScene
 
-## 启动时加载的关卡。
-@export var start_level: StringName = &"test"
+## 启动时加载的关卡。Main.tscn 里显式覆盖成序章首关。
+@export var start_level: StringName = &"battlefield_01"
 @export var start_entry: StringName = &"default"
 
 ## 死亡到复活之间的停顿（秒）。

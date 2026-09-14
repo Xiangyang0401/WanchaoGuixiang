@@ -6,13 +6,13 @@
 
 **关卡场景文件在 `scenes/levels/`，双击打开就能画。**
 
-- `TestLevel.tscn` —— 系统验证关，地形已烘焙，可以直接改
-- `Battlefield01~04.tscn` —— 古战场四张图，**地形是空的，等你画**
+- `Battlefield01~04.tscn` —— 古战场四张图，序章从 `battlefield_01` 开始
+- `TemplateLevel.tscn` —— 新建关卡的模板，**不要直接改它**，复制一份开工
 
 每张关卡场景的结构：
 
 ```
-TestLevel (Level)
+Battlefield01 (Level)
   ├── Ground      (TileMapLayer)  ← 实心地形，画这里
   ├── Platforms   (TileMapLayer)  ← 单向平台，可从下方跳上来
   ├── Decor       (TileMapLayer)  ← 纯装饰，无碰撞
@@ -114,9 +114,6 @@ GODOT="/e/Godot/Godot_v4.6.1-stable_win64_console.exe"
 
 # 为 LevelRegistry 里缺文件的关卡生成模板（已存在的会跳过，不会冲掉你画的）
 "$GODOT" --headless --path . res://scenes/tools/GenerateLevelStubs.tscn
-
-# 把 ASCII 图烘焙成 TestLevel.tscn（会覆盖，慎用）
-"$GODOT" --headless --path . res://scenes/tools/BakeTestLevel.tscn
 ```
 
 ---

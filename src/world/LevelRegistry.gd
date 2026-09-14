@@ -17,9 +17,6 @@ const LEVELS := {
 	&"battlefield_02": "res://scenes/levels/Battlefield02.tscn",
 	&"battlefield_03": "res://scenes/levels/Battlefield03.tscn",
 	&"battlefield_04": "res://scenes/levels/Battlefield04.tscn",
-
-	# —— 调试 ——
-	&"test": "res://scenes/levels/TestLevel.tscn",
 }
 
 

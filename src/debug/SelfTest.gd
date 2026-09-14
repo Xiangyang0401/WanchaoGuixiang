@@ -187,7 +187,7 @@ func _test_scene_boot() -> void:
 	if player == null or level == null:
 		return
 
-	_eq("当前关卡 id", String(GameState.current_level_id), "test")
+	_eq("当前关卡 id", String(GameState.current_level_id), "battlefield_01")
 	_check("关卡有默认入口", level.get_entry(&"default") != null)
 
 	# --- 地形与重力 ---
@@ -200,37 +200,6 @@ func _test_scene_boot() -> void:
 	var bounds := level.get_world_bounds()
 	_check("关卡边界非退化", bounds.size.x > 100 and bounds.size.y > 100,
 		"bounds=%s" % str(bounds))
-
-	# --- 敌人生成 ---
-	var enemies := get_tree().get_nodes_in_group(&"enemy")
-	_check("敌人已生成", enemies.size() >= 3, "数量=%d" % enemies.size())
-
-	# --- 巡逻怪会动 ---
-	var patroller: Enemy = null
-	for e in enemies:
-		if (e as Enemy).behavior is PatrolBehavior:
-			patroller = e
-			break
-	_check("存在巡逻怪", patroller != null)
-	if patroller != null:
-		await _step(30)
-		var x0: float = patroller.global_position.x
-		await _step(40)
-		_check("巡逻怪发生位移", absf(patroller.global_position.x - x0) > 4.0,
-			"位移=%.2f" % absf(patroller.global_position.x - x0))
-
-	# --- 静止怪不动 ---
-	var stationary: Enemy = null
-	for e in enemies:
-		if (e as Enemy).behavior is StationaryBehavior:
-			stationary = e
-			break
-	_check("存在静止怪", stationary != null)
-	if stationary != null:
-		var sx: float = stationary.global_position.x
-		await _step(40)
-		_check("静止怪原地不动", absf(stationary.global_position.x - sx) < 2.0,
-			"位移=%.2f" % absf(stationary.global_position.x - sx))
 
 	# --- 血量与伤害 ---
 	var hp_before: int = player.health.current_hp
@@ -298,30 +267,6 @@ func _test_scene_boot() -> void:
 	_check("无检查点时回默认复活点",
 		player.global_position.distance_to(respawn_pos) < 4.0,
 		"pos=%s expect=%s" % [str(player.global_position), str(respawn_pos)])
-
-	# --- 长凳检查点 ---
-	var benches := get_tree().get_nodes_in_group(&"bench")
-	_check("测试关有长凳", benches.size() > 0)
-	if benches.size() > 0:
-		var bench := benches[0] as Bench
-		bench.interact(player)
-		await _step(2)
-		_check("交互长凳后记录检查点", GameState.has_checkpoint())
-		_eq("检查点关卡正确", String(GameState.active_checkpoint_level), "test")
-
-		# 再死一次，应该回到长凳而不是默认点
-		var kill2 := DamageInfo.create(999, null, 0.0)
-		kill2.ignore_invulnerability = true
-		player.health.take_damage(kill2)
-		await _step(2)
-		mgr.respawn_player()
-		await _step(3)
-		_check("检查点复活优先于默认复活点",
-			player.global_position.distance_to(GameState.active_checkpoint_position) < 4.0,
-			"pos=%s cp=%s" % [str(player.global_position), str(GameState.active_checkpoint_position)])
-
-	# --- 关卡注册表 ---
-	_check("LevelRegistry 含 test", LevelRegistry.exists(&"test"))
 
 	# --- 注册表里每个 id 的场景文件都必须真实存在 ---
 	# 漏建文件的话，玩家走到边界切图时会直接卡死，而且只在跑到那一关才暴露。
@@ -945,8 +890,8 @@ func _test_npc_interactor(mgr: LevelManager, player: Player) -> void:
 
 	ground.queue_free()
 	GameConfig.debug_invincible = old_inv
-	# 切回 test，保持后续测试起点一致。
-	mgr.load_level(&"test", &"default")
+	# 切回 battlefield_01，保持后续测试起点一致。
+	mgr.load_level(&"battlefield_01", &"default")
 	await _step(3)
 
 
@@ -1008,16 +953,16 @@ func _test_level_transition(mgr: LevelManager, player: Player) -> void:
 	var hp_before: int = player.health.current_hp
 	var player_id := player.get_instance_id()
 
-	mgr.load_level(&"battlefield_01", &"default")
+	mgr.load_level(&"battlefield_02", &"default")
 	await _step(4)
 
 	var new_level := mgr.get_current_level()
-	_check("切到 battlefield_01", new_level != null and new_level != old_level)
+	_check("切到 battlefield_02", new_level != null and new_level != old_level)
 	if new_level == null:
 		return
 
-	_eq("GameState 关卡 id 已更新", String(GameState.current_level_id), "battlefield_01")
-	_eq("关卡自身 level_id 与注册表一致", String(new_level.level_id), "battlefield_01")
+	_eq("GameState 关卡 id 已更新", String(GameState.current_level_id), "battlefield_02")
+	_eq("关卡自身 level_id 与注册表一致", String(new_level.level_id), "battlefield_02")
 	_check("旧关卡已从场景树卸下", not is_instance_valid(old_level) or not old_level.is_inside_tree())
 
 	_eq("玩家是同一个实例（未被销毁重建）", player.get_instance_id(), player_id)
@@ -1026,10 +971,10 @@ func _test_level_transition(mgr: LevelManager, player: Player) -> void:
 		and player.abilities.has(Abilities.DOUBLE_JUMP))
 
 	var entry := new_level.get_entry(&"default")
-	_check("模板关有 default 入口", entry != null)
+	_check("新关卡有 default 入口", entry != null)
 	if entry != null:
-		# 只比 X 和「是否在入口附近」。模板关还没画地形，玩家会一直自由落体，
-		# 等几帧之后 Y 必然偏离，那是重力正常工作的表现，不是放置错误。
+		# 只比 X 和「是否在入口附近」：断言的是"被放到了入口"，
+		# 不是"永远停在入口"——重力会立刻把人往下带，帧数一多 Y 就偏离了。
 		_check("玩家被放到入口的水平位置",
 			absf(player.global_position.x - entry.global_position.x) < 4.0,
 			"x=%.1f entry.x=%.1f" % [player.global_position.x, entry.global_position.x])
@@ -1037,12 +982,12 @@ func _test_level_transition(mgr: LevelManager, player: Player) -> void:
 			absf(player.global_position.y - entry.global_position.y) < 64.0,
 			"y=%.1f entry.y=%.1f" % [player.global_position.y, entry.global_position.y])
 
-	_check("模板关有 from_prev 入口", new_level.get_entry(&"from_prev") != null)
-	_check("模板关有 from_next 入口", new_level.get_entry(&"from_next") != null)
+	_check("新关卡有 from_prev 入口", new_level.get_entry(&"from_prev") != null)
+	_check("新关卡有 from_next 入口", new_level.get_entry(&"from_next") != null)
 
-	# 空关卡（还没画瓦片）不能让相机限位退化成一个点，否则一进图就黑屏。
+	# 相机限位不能退化成一个点，否则一进图就黑屏。
 	var new_bounds := new_level.get_world_bounds()
-	_check("空关卡也有可用的相机边界",
+	_check("新关卡也有可用的相机边界",
 		new_bounds.size.x > 100 and new_bounds.size.y > 100,
 		"bounds=%s（旧=%s）" % [str(new_bounds), str(old_bounds)])
 
@@ -1055,7 +1000,7 @@ func _test_level_transition(mgr: LevelManager, player: Player) -> void:
 			LevelRegistry.exists(ex.target_level), String(ex.target_level))
 
 	# 切回去，确认双向可达且不会残留。
-	mgr.load_level(&"test", &"default")
+	mgr.load_level(&"battlefield_01", &"default")
 	await _step(4)
-	_eq("能切回 test", String(GameState.current_level_id), "test")
+	_eq("能切回 battlefield_01", String(GameState.current_level_id), "battlefield_01")
 	_check("切回后玩家仍是同一实例", player.get_instance_id() == player_id)

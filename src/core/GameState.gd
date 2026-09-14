@@ -11,7 +11,7 @@ extends Node
 # ---------------------------------------------------------------------------
 
 ## 当前故事阶段。玩家生成时会按这个值初始化能力集。
-## 策划调试：直接在调试面板改这个值，或改 TestLevel 的导出参数。
+## 策划调试：直接在调试面板改这个值。
 var stage: Abilities.Stage = Abilities.Stage.YOUNG:
 	set(value):
 		if stage == value:
