@@ -59,3 +59,6 @@
 
 帧处理工具在 `src/tools/`（Godot 脚本），素材预处理的 Python 辅助脚本在 `tools/`。
 命令行用法与参数说明见 [`docs/animation_pipeline.md`](../animation_pipeline.md)。
+
+> 本目录带一个 `.gdignore`，让 Godot 跳过扫描 —— 这里的图是过程记录，
+> 不该被当纹理导入（否则会在仓库里生成一堆 `.import`）。**别删它。**
