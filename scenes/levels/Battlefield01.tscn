@@ -20,6 +20,8 @@ script = ExtResource("1_5srx3")
 level_id = &"battlefield_01"
 display_name = "古战场·残垣"
 bounds_padding_tiles = 1.0
+tutorial_hints = Array[String](["移动：{action:move_left} {action:move_right}", "靠近 NPC 按 {action:interact} 交谈"])
+stage_on_enter = 0
 
 [node name="Background" parent="." unique_id=1179290868 instance=ExtResource("9_bg")]
 scroll_offset = Vector2(-517, 207)
@@ -39,19 +41,13 @@ collision_enabled = false
 
 [node name="TutorialNote1" parent="." unique_id=603218547 instance=ExtResource("7_wt")]
 position = Vector2(237, -392)
-text = "A:向左移动 D:向右移动"
-font_size = 36
-show_background = true
-
-[node name="TutorialNote2" parent="." unique_id=1802523436 instance=ExtResource("7_wt")]
-position = Vector2(650, -441)
-text = "Space: 跳跃"
+text = "{action:move_left} 向左　{action:move_right} 向右"
 font_size = 36
 show_background = true
 
 [node name="TutorialNote3" parent="." unique_id=1592473443 instance=ExtResource("7_wt")]
 position = Vector2(1057, -392)
-text = "F:与NPC对话"
+text = "靠近后按 {action:interact} 交谈"
 font_size = 36
 show_background = true
 
@@ -61,9 +57,20 @@ script = ExtResource("3_61w57")
 is_default_respawn = true
 
 [node name="Entry_from_prev" type="Marker2D" parent="." unique_id=546391717]
-position = Vector2(64, 224)
+position = Vector2(128, 224)
 script = ExtResource("3_61w57")
 entry_id = &"from_prev"
+
+[node name="ExitLeft" type="Area2D" parent="." unique_id=1937465210]
+position = Vector2(32, 128)
+script = ExtResource("4_kw0qe")
+target_level = &"battlefield_00"
+target_entry = &"from_next"
+size_tiles = Vector2(1, 12)
+direction = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1937465211]
+shape = SubResource("RectangleShape2D_gompt")
 
 [node name="Entry_from_next" type="Marker2D" parent="." unique_id=1216743840]
 position = Vector2(1280, 224)
@@ -92,5 +99,5 @@ z_index = 4095
 
 [node name="Npc" parent="." unique_id=1858875603 instance=ExtResource("8_gompt")]
 position = Vector2(1073, 285)
-speaker_name = "我是一个NPC"
-lines = Array[String](["你好，年轻人", "继续往前走吧", "胜利就在眼前"])
+speaker_name = "守灯人"
+lines = Array[String](["年轻人，你终于醒了。", "跟着路往前走，别回头。", "前面是断桥——小心脚下的深渊，掉下去会被潮托回来，但会痛的。"])

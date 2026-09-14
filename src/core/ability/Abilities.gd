@@ -61,6 +61,9 @@ const META := {
 # 血量上限 = BASE_MAX_HP - 已失去的年轻能力数（见 Stage.hp_penalty）。
 
 enum Stage {
+	TUTORIAL_AWAKE,     ## 教学·苏醒：只能移动与交互（出生点、地图一）
+	TUTORIAL_JUMP,      ## 教学·跳跃：解锁一段跳（地图二）
+	TUTORIAL_DASH,      ## 教学·冲刺：解锁疾风冲刺（地图三）
 	YOUNG,              ## 序章·古战场：三个年轻能力齐全，潮还在
 	LOST_CLEAVE,        ## 失去锋锐切割：不再能攻击
 	LOST_DASH,          ## 再失去疾风冲刺
@@ -82,6 +85,25 @@ const BASE_ABILITIES: Array[StringName] = [WALK, JUMP, INTERACT]
 ##                 年轻时潮还在照料你，伤会自己好；
 ##                 成熟后必须找到长凳休息才能恢复——这是主题的机制表达。
 const STAGES := {
+	Stage.TUTORIAL_AWAKE: {
+		"label": "苏醒",
+		"abilities": [],
+		"remove": [JUMP],
+		"hp_penalty": 0,
+		"auto_regen": true,
+	},
+	Stage.TUTORIAL_JUMP: {
+		"label": "学会跳跃",
+		"abilities": [],
+		"hp_penalty": 0,
+		"auto_regen": true,
+	},
+	Stage.TUTORIAL_DASH: {
+		"label": "学会冲刺",
+		"abilities": [DASH],
+		"hp_penalty": 0,
+		"auto_regen": true,
+	},
 	Stage.YOUNG: {
 		"label": "年轻",
 		"abilities": [DOUBLE_JUMP, DASH, CLEAVE],
@@ -128,12 +150,15 @@ const STAGES := {
 
 
 ## 取某阶段的完整能力列表（含基础能力）。
+## 阶段可选 "remove" 列表：从结果里剔除（教学期收走跳跃等基础能力用）。
 static func abilities_for_stage(stage: Stage) -> Array[StringName]:
 	var out: Array[StringName] = []
 	out.append_array(BASE_ABILITIES)
 	var data: Dictionary = STAGES.get(stage, {})
 	for a in data.get("abilities", []):
 		out.append(a)
+	for a in data.get("remove", []):
+		out.erase(a)
 	return out
 
 

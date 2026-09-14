@@ -6,7 +6,7 @@
 script = ExtResource("1_ed")
 display_name = "游荡外物"
 enemy_id = &"wanderer"
-max_hp = 3
+max_hp = 1
 invulnerability_time = 0.15
 knockback_resistance = 0.0
 contact_damage = 1

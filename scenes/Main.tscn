@@ -9,6 +9,6 @@
 script = ExtResource("1_lm")
 player_scene = ExtResource("2_player")
 camera_scene = ExtResource("3_cam")
-start_level = &"battlefield_01"
+start_level = &"battlefield_00"
 
 [node name="HUD" parent="." unique_id=1808026791 instance=ExtResource("4_hud")]

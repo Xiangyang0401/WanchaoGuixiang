@@ -96,6 +96,7 @@ func load_level(level_id: StringName, entry_id: StringName = &"default") -> void
 	_current_level.level_id = level_id
 	GameState.current_level_id = level_id
 	GameState.mark_visited(level_id)
+	_apply_stage_on_enter()
 
 	_place_player_at_entry(entry_id)
 	_camera.apply_limits(_current_level.get_world_bounds())
@@ -104,6 +105,16 @@ func load_level(level_id: StringName, entry_id: StringName = &"default") -> void
 	_transitioning = false
 	level_changed.emit(level_id)
 	EventBus.level_loaded.emit(level_id)
+
+
+## 应用"进入关卡时切换能力阶段"的门控。
+## 必须在玩家放置前调用：能力集先就位，落点姿势/碰撞才符合该阶段的状态。
+func _apply_stage_on_enter() -> void:
+	var s := _current_level.stage_on_enter
+	if s < 0 or s == GameState.stage:
+		return
+	# 枚举本质是 int，直接赋值即可（as 不支持 A.B 形式的类型，别写成 as）。
+	GameState.stage = s
 
 
 func _place_player_at_entry(entry_id: StringName) -> void:

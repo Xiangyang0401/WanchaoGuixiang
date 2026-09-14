@@ -40,12 +40,12 @@ script = ExtResource("3_igigp")
 is_default_respawn = true
 
 [node name="Entry_from_prev" type="Marker2D" parent="." unique_id=1879465185]
-position = Vector2(64, 224)
+position = Vector2(128, 224)
 script = ExtResource("3_igigp")
 entry_id = &"from_prev"
 
 [node name="Entry_from_next" type="Marker2D" parent="." unique_id=385071948]
-position = Vector2(1280, 224)
+position = Vector2(1152, 224)
 script = ExtResource("3_igigp")
 entry_id = &"from_next"
 

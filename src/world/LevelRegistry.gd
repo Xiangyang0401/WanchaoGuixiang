@@ -12,11 +12,13 @@ extends RefCounted
 ##   3. 在相邻地图放 LevelExit，填上新 id
 
 const LEVELS := {
-	# —— 古战场（序章·初始区域）——
+	# —— 古战场（序章·教学区）——
+	&"battlefield_00": "res://scenes/levels/Battlefield00.tscn",
 	&"battlefield_01": "res://scenes/levels/Battlefield01.tscn",
 	&"battlefield_02": "res://scenes/levels/Battlefield02.tscn",
 	&"battlefield_03": "res://scenes/levels/Battlefield03.tscn",
 	&"battlefield_04": "res://scenes/levels/Battlefield04.tscn",
+	&"battlefield_05": "res://scenes/levels/Battlefield05.tscn",
 }
 
 

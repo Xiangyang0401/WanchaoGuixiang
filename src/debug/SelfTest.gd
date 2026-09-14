@@ -187,7 +187,7 @@ func _test_scene_boot() -> void:
 	if player == null or level == null:
 		return
 
-	_eq("当前关卡 id", String(GameState.current_level_id), "battlefield_01")
+	_eq("当前关卡 id", String(GameState.current_level_id), "battlefield_00")
 	_check("关卡有默认入口", level.get_entry(&"default") != null)
 
 	# --- 地形与重力 ---
@@ -826,15 +826,15 @@ func _test_npc_interactor(mgr: LevelManager, player: Player) -> void:
 	# 对话开始：提示要让位（对话框出现在底部，头顶提示若不撤会抢注意力）。
 	_check("对话开始提示让位隐藏", not prompt.visible)
 
-	_eq("显示第一句", panel._body_label.text, "你好，年轻人")
+	_eq("显示第一句", panel._body_label.text, "年轻人，你终于醒了。")
 	_send_f()
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_eq("按 F 到第二句", panel._body_label.text, "继续往前走吧")
+	_eq("按 F 到第二句", panel._body_label.text, "跟着路往前走，别回头。")
 	_send_f()
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_eq("按 F 到第三句", panel._body_label.text, "胜利就在眼前")
+	_eq("按 F 到第三句", panel._body_label.text, "前面是断桥——小心脚下的深渊，掉下去会被潮托回来，但会痛的。")
 	# 最后一句再按 F：等它真正关闭并解除暂停（有界轮询，最多 30 帧）。
 	_send_f()
 	for i in 30:
@@ -953,16 +953,19 @@ func _test_level_transition(mgr: LevelManager, player: Player) -> void:
 	var hp_before: int = player.health.current_hp
 	var player_id := player.get_instance_id()
 
-	mgr.load_level(&"battlefield_02", &"default")
+	# 注意：选 battlefield_05 做跨关目标——它没有 stage_on_enter 门控，
+	# 不会在切图时覆盖阶段，才能干净地验证「玩家状态跨关原样保留」。
+	# 有门控的关卡（00~03）进入时会切阶段，那是关卡自身的正确行为。
+	mgr.load_level(&"battlefield_05", &"default")
 	await _step(4)
 
 	var new_level := mgr.get_current_level()
-	_check("切到 battlefield_02", new_level != null and new_level != old_level)
+	_check("切到 battlefield_05", new_level != null and new_level != old_level)
 	if new_level == null:
 		return
 
-	_eq("GameState 关卡 id 已更新", String(GameState.current_level_id), "battlefield_02")
-	_eq("关卡自身 level_id 与注册表一致", String(new_level.level_id), "battlefield_02")
+	_eq("GameState 关卡 id 已更新", String(GameState.current_level_id), "battlefield_05")
+	_eq("关卡自身 level_id 与注册表一致", String(new_level.level_id), "battlefield_05")
 	_check("旧关卡已从场景树卸下", not is_instance_valid(old_level) or not old_level.is_inside_tree())
 
 	_eq("玩家是同一个实例（未被销毁重建）", player.get_instance_id(), player_id)

@@ -6,8 +6,21 @@
 
 **关卡场景文件在 `scenes/levels/`，双击打开就能画。**
 
-- `Battlefield01~04.tscn` —— 古战场四张图，序章从 `battlefield_01` 开始
+- `Battlefield00~05.tscn` —— 古战场教学区六张图：
+  `00 苏醒`（出生点·移动）→ `01 残垣`（NPC 交互）→ `02 断桥`（跳跃）
+  → `03 哨塔`（冲刺）→ `04 关口`（攻击+二段跳）→ `05 归途`（综合运用+长凳）
 - `TemplateLevel.tscn` —— 新建关卡的模板，**不要直接改它**，复制一份开工
+
+教学区的能力门控：每张图的根节点上有 `stage_on_enter`（-1 = 不干预），
+进入关卡时自动把玩家切到对应能力阶段（00/01 只能移动、02 解锁跳跃、
+03 解锁冲刺、04 起全能力）。阶段快照定义在 `src/core/ability/Abilities.gd`。
+
+教学区的 00/02/03/04/05 由 `scenes/tools/GenerateTutorialLevels.tscn` 生成
+（`Battlefield01` 是手画的，不在生成范围内）。改了地形数据想整体重生成时：
+
+```bash
+"$GODOT" --headless --path . res://scenes/tools/GenerateTutorialLevels.tscn
+```
 
 每张关卡场景的结构：
 
@@ -28,7 +41,7 @@ Battlefield01 (Level)
 | 序号 | 名称 | 用途 |
 |---|---|---|
 | 0 | solid | 实心地形 |
-| 1 | solid_alt | 实心地形（深色，做层次） |
+| 1 | solid_alt | 实心地形（深色，做层次/地下与薄板） |
 | 2 | oneway | 单向平台（只有上边缘有碰撞） |
 | 3 | hazard | 危险区外观（**无地形碰撞**，伤害靠单独的 Area2D） |
 | 4 | deco | 纯装饰 |

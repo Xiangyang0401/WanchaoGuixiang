@@ -62,7 +62,6 @@ func _ready() -> void:
 		return
 	collision_layer = 0
 	collision_mask = GameConfig.mask([GameConfig.Layer.PLAYER])
-	monitoring = true
 	monitorable = false
 	_apply_size()
 	body_entered.connect(_on_body_entered)
@@ -100,8 +99,24 @@ func _configured_ok() -> bool:
 	return target_level != &"" and LevelRegistry.exists(target_level)
 
 
+## 玩家真实位置是否压在触发区附近（矩形外扩 2 格做近似）。
+## 只需拦掉"玩家根本不在这张出口旁边"的误报：正常触发时玩家必然走进
+## 触发区（y 方向矩形已盖满整个通道），而误报时玩家在对面入口，相距
+## 数十格，2 格容差足够区分。矩形用 shape 的全局中心，不假设节点居中。
+func _really_overlaps_player(body: Node2D) -> bool:
+	var half: Vector2 = (_shape.shape as RectangleShape2D).size * 0.5
+	var rect := Rect2(_shape.global_position - half, half * 2.0)
+	return rect.grow(GameConfig.TILE_SIZE * 2.0).has_point(body.global_position)
+
+
 func _on_body_entered(body: Node2D) -> void:
 	if not body.is_in_group(&"player"):
+		return
+	# 引擎事件可能偏离几何现实：切图时玩家被瞬移到新入口，但物理 broadphase
+	# 要到下一个物理步才同步新位置。间隙里新出口可能基于玩家**旧位置**收到
+	# entered 误报——相邻两关出口常在同一 x 上，误报会立刻链式切图，表现
+	# 为两关之间无限来回切（疯狂闪屏）。所以用玩家真实位置复核一遍。
+	if not _really_overlaps_player(body):
 		return
 	_player_inside = true
 	queue_redraw()

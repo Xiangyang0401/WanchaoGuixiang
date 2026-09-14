@@ -34,6 +34,14 @@ extends Node2D
 ## 教学提示是否显示、显示什么，完全由本关决定，代码不写死内容。
 @export var tutorial_hints: Array[String] = []
 
+## 进入本关时把玩家切到的能力阶段（Abilities.Stage 枚举值）。
+## -1 = 不修改，维持当前阶段。
+##
+## 教学区域用它做能力门控：出生点只有移动，跳跃关才解锁跳跃……
+## 回头走回教学关同样生效（能力会被收回去），保证任意路线下教学闭环。
+## 注意：玩家在关内获得的能力不会中途变化；切阶段时机是"加载完成"那一刻。
+@export var stage_on_enter: int = -1
+
 var _entries: Dictionary = {}          ## StringName -> LevelEntry
 
 
