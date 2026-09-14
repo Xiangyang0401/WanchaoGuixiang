@@ -163,3 +163,9 @@ Write-Output \"白=\$([Math]::Round(100*\$w/\$n,2))% 透明=\$([Math]::Round(100
 - [ ] `PlayerVisual.gd` 的 `_ANIM` 表加映射（+`_FALLBACK` 降级 + 视需要加 trigger）
 - [ ] 画布高度不在 645~702 区间 → 回查帧处理规格
 - [ ] SelfTest 全过，游戏里实测脚底对齐（不浮空不陷入）
+
+## 过程记录
+
+各阶段调参的比对截图（底色判别 / 去底抠像 / 挑帧 / 序列目检）归档在
+[`docs/art-pipeline/`](art-pipeline/README.md)，按本文档的流程阶段分组。
+参数调不准时先翻对应阶段的图，看上一轮收敛到哪里。
