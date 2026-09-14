@@ -1,0 +1,52 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/Level.gd" id="1_35jne"]
+[ext_resource type="TileSet" path="res://assets/placeholder/tileset.tres" id="2_4pb6o"]
+[ext_resource type="Script" path="res://src/world/LevelEntry.gd" id="3_j8epg"]
+[ext_resource type="Script" path="res://src/world/LevelExit.gd" id="4_kxesy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y8cik"]
+size = Vector2(32, 384)
+
+[node name="Battlefield04" type="Node2D" unique_id=87227017]
+script = ExtResource("1_35jne")
+level_id = &"battlefield_04"
+display_name = "古战场·关口"
+bounds_padding_tiles = 1.0
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=1169217805]
+tile_set = ExtResource("2_4pb6o")
+
+[node name="Platforms" type="TileMapLayer" parent="." unique_id=1568230147]
+tile_set = ExtResource("2_4pb6o")
+
+[node name="Decor" type="TileMapLayer" parent="." unique_id=1172128997]
+tile_set = ExtResource("2_4pb6o")
+collision_enabled = false
+
+[node name="Entry_default" type="Marker2D" parent="." unique_id=792910738]
+position = Vector2(96, 224)
+script = ExtResource("3_j8epg")
+is_default_respawn = true
+
+[node name="Entry_from_prev" type="Marker2D" parent="." unique_id=480372424]
+position = Vector2(64, 224)
+script = ExtResource("3_j8epg")
+entry_id = &"from_prev"
+
+[node name="Entry_from_next" type="Marker2D" parent="." unique_id=1936793540]
+position = Vector2(1280, 224)
+script = ExtResource("3_j8epg")
+entry_id = &"from_next"
+facing = -1
+
+[node name="ExitLeft" type="Area2D" parent="." unique_id=2006760581]
+position = Vector2(0, 128)
+script = ExtResource("4_kxesy")
+target_level = &"battlefield_03"
+target_entry = &"from_next"
+size_tiles = Vector2(1, 12)
+direction = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=581428988]
+shape = SubResource("RectangleShape2D_y8cik")

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=4 uid="uid://cb0kgvlbg1nd0"]
+
+[ext_resource type="Script" uid="uid://biwxciyoh3o3r" path="res://src/world/LevelBackground.gd" id="1_bg"]
+
+[node name="LevelBackground" type="Parallax2D"]
+z_index = -100
+script = ExtResource("1_bg")
+fill = 0
+parallax = 0.5
+sort_order = -100
+tint = Color(1, 1, 1, 1)
+overscan = 0.05

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cd31x5nixi6sq"]
+
+[ext_resource type="Script" uid="uid://bsfj5xeryajdr" path="res://src/world/LevelManager.gd" id="1_lm"]
+[ext_resource type="PackedScene" uid="uid://e44txc3kec3q" path="res://scenes/actors/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://nycnqceym853" path="res://scenes/actors/PlayerCamera.tscn" id="3_cam"]
+[ext_resource type="PackedScene" uid="uid://nycnqce47y53" path="res://scenes/ui/HUD.tscn" id="4_hud"]
+
+[node name="Main" type="Node" unique_id=416190767]
+script = ExtResource("1_lm")
+player_scene = ExtResource("2_player")
+camera_scene = ExtResource("3_cam")
+start_level = &"battlefield_01"
+
+[node name="HUD" parent="." unique_id=1808026791 instance=ExtResource("4_hud")]

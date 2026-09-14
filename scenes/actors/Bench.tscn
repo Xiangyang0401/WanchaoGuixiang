@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqwanchaobench01"]
+
+[ext_resource type="Script" path="res://src/world/interactables/Bench.gd" id="1_bench"]
+
+[sub_resource type="RectangleShape2D" id="RectBench"]
+size = Vector2(64, 48)
+
+[node name="Bench" type="Area2D"]
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_bench")
+prompt_text = "休息"
+is_checkpoint = true
+rest_prompt = "休息"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectBench")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Seat" type="ColorRect" parent="Visual"]
+offset_left = -28.0
+offset_top = -8.0
+offset_right = 28.0
+offset_bottom = 0.0
+color = Color(0.55, 0.45, 0.32, 1)
+
+[node name="LegL" type="ColorRect" parent="Visual"]
+offset_left = -24.0
+offset_top = 0.0
+offset_right = -16.0
+offset_bottom = 16.0
+color = Color(0.4, 0.32, 0.23, 1)
+
+[node name="LegR" type="ColorRect" parent="Visual"]
+offset_left = 16.0
+offset_top = 0.0
+offset_right = 24.0
+offset_bottom = 16.0
+color = Color(0.4, 0.32, 0.23, 1)
+
+[node name="Back" type="ColorRect" parent="Visual"]
+offset_left = -28.0
+offset_top = -24.0
+offset_right = 28.0
+offset_bottom = -18.0
+color = Color(0.5, 0.41, 0.29, 1)

@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://gjwottcsqg4f"]
+
+[ext_resource type="Script" uid="uid://buwhqkm14u7mu" path="res://src/world/Level.gd" id="1_6jvsv"]
+[ext_resource type="PackedScene" uid="uid://cb0kgvlbg1nd0" path="res://scenes/world/LevelBackground.tscn" id="2_bbstn"]
+[ext_resource type="TileSet" uid="uid://bpmthpyrv73t5" path="res://assets/placeholder/tileset.tres" id="2_mo0bj"]
+[ext_resource type="Script" uid="uid://cmjbcow0puuve" path="res://src/world/LevelEntry.gd" id="3_bbstn"]
+[ext_resource type="Texture2D" uid="uid://c157wau178nsh" path="res://assets/backgrounds/background-test.png" id="3_kdq3h"]
+[ext_resource type="Script" uid="uid://cv1mig0epxxt8" path="res://src/world/LevelExit.gd" id="4_kdq3h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6562s"]
+size = Vector2(32, 384)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iu7o4"]
+size = Vector2(32, 384)
+
+[node name="Battlefield03" type="Node2D" unique_id=780498923]
+script = ExtResource("1_6jvsv")
+level_id = &"battlefield_03"
+display_name = "古战场·哨塔"
+bounds_padding_tiles = 1.0
+
+[node name="LevelBackground" parent="." unique_id=217246199 instance=ExtResource("2_bbstn")]
+texture = ExtResource("3_kdq3h")
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=1823473059]
+tile_set = ExtResource("2_mo0bj")
+
+[node name="Platforms" type="TileMapLayer" parent="." unique_id=745096323]
+tile_set = ExtResource("2_mo0bj")
+
+[node name="Decor" type="TileMapLayer" parent="." unique_id=1511020443]
+tile_set = ExtResource("2_mo0bj")
+collision_enabled = false
+
+[node name="Entry_default" type="Marker2D" parent="." unique_id=1222417960]
+position = Vector2(96, 224)
+script = ExtResource("3_bbstn")
+is_default_respawn = true
+
+[node name="Entry_from_prev" type="Marker2D" parent="." unique_id=1217729950]
+position = Vector2(64, 224)
+script = ExtResource("3_bbstn")
+entry_id = &"from_prev"
+
+[node name="Entry_from_next" type="Marker2D" parent="." unique_id=1034362185]
+position = Vector2(1280, 224)
+script = ExtResource("3_bbstn")
+entry_id = &"from_next"
+facing = -1
+
+[node name="ExitLeft" type="Area2D" parent="." unique_id=1768404852]
+position = Vector2(0, 128)
+script = ExtResource("4_kdq3h")
+target_level = &"battlefield_02"
+target_entry = &"from_next"
+size_tiles = Vector2(1, 12)
+direction = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1163982826]
+shape = SubResource("RectangleShape2D_6562s")
+
+[node name="ExitRight" type="Area2D" parent="." unique_id=581512082]
+position = Vector2(1344, 128)
+script = ExtResource("4_kdq3h")
+target_level = &"battlefield_04"
+target_entry = &"from_prev"
+size_tiles = Vector2(1, 12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1312432210]
+shape = SubResource("RectangleShape2D_iu7o4")

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="PatrolBehavior" load_steps=2 format=3 uid="uid://bqbehpatrol01"]
+
+[ext_resource type="Script" path="res://src/actors/enemy/behaviors/PatrolBehavior.gd" id="1_pb"]
+
+[resource]
+script = ExtResource("1_pb")
+initial_facing = 1

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MovementProfile" format=3 uid="uid://i5uerhtb0oca"]
+
+[ext_resource type="Script" uid="uid://c7q0hf1pn03tg" path="res://src/actors/player/MovementProfile.gd" id="1_mp"]
+
+[resource]
+script = ExtResource("1_mp")
+run_speed_tiles = 8.0
+jump_height_tiles = 6.4
+max_fall_speed_tiles = 44.0
+double_jump_height_tiles = 5.2
+dash_speed_tiles = 44.0
+glide_fall_speed_tiles = 6.0
+glide_horizontal_speed_tiles = 13.0

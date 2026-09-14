@@ -1,0 +1,79 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://src/world/Level.gd" id="1_nujiv"]
+[ext_resource type="TileSet" path="res://assets/placeholder/tileset.tres" id="2_8sh8u"]
+[ext_resource type="Script" path="res://src/world/LevelEntry.gd" id="3_igigp"]
+[ext_resource type="Script" path="res://src/world/LevelExit.gd" id="4_er7fc"]
+[ext_resource type="PackedScene" path="res://scenes/world/LevelBackground.tscn" id="5_ty8xg"]
+[ext_resource type="Script" path="res://src/world/LevelBackground.gd" id="6_i77a6"]
+[ext_resource type="PackedScene" path="res://scenes/tools/LevelBoundsGuide.tscn" id="7_tny5g"]
+[ext_resource type="Script" path="res://src/debug/LevelBoundsGuide.gd" id="8_sa6o1"]
+[ext_resource type="PackedScene" path="res://scenes/tools/DesignRuler.tscn" id="9_jpk4t"]
+[ext_resource type="Script" path="res://src/debug/DesignRuler.gd" id="10_mwk6f"]
+[ext_resource type="Resource" path="res://data/player/default_movement.tres" id="11_yxxmi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ovfqa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x4cld"]
+
+[node name="TemplateLevel" type="Node2D" unique_id=89838971]
+script = ExtResource("1_nujiv")
+level_id = &"template"
+display_name = "关卡模板（复制我开工）"
+bounds_padding_tiles = 1.0
+tutorial_hints = Array[String](["移动：{action:move_left} {action:move_right}", "跳跃：{action:jump}"])
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=461878872]
+tile_map_data = PackedByteArray("AAAAAAkAAAAAAAAAAAABAAkAAAAAAAAAAAACAAkAAAAAAAAAAAADAAkAAAAAAAAAAAAEAAkAAAAAAAAAAAAFAAkAAAAAAAAAAAAGAAkAAAAAAAAAAAAHAAkAAAAAAAAAAAAIAAkAAAAAAAAAAAAJAAkAAAAAAAAAAAAKAAkAAAAAAAAAAAALAAkAAAAAAAAAAAAMAAkAAAAAAAAAAAANAAkAAAAAAAAAAAAOAAkAAAAAAAAAAAAPAAkAAAAAAAAAAAAQAAkAAAAAAAAAAAARAAkAAAAAAAAAAAASAAkAAAAAAAAAAAATAAkAAAAAAAAAAAAUAAkAAAAAAAAAAAAVAAkAAAAAAAAAAAAWAAkAAAAAAAAAAAAXAAkAAAAAAAAAAAAYAAkAAAAAAAAAAAAZAAkAAAAAAAAAAAAaAAkAAAAAAAAAAAAbAAkAAAAAAAAAAAAcAAkAAAAAAAAAAAAdAAkAAAAAAAAAAAAeAAkAAAAAAAAAAAAfAAkAAAAAAAAAAAAgAAkAAAAAAAAAAAAhAAkAAAAAAAAAAAAiAAkAAAAAAAAAAAAjAAkAAAAAAAAAAAAkAAkAAAAAAAAAAAAlAAkAAAAAAAAAAAAmAAkAAAAAAAAAAAAnAAkAAAAAAAAAAAA=")
+tile_set = ExtResource("2_8sh8u")
+
+[node name="Platforms" type="TileMapLayer" parent="." unique_id=106968172]
+tile_set = ExtResource("2_8sh8u")
+
+[node name="Decor" type="TileMapLayer" parent="." unique_id=674413584]
+tile_set = ExtResource("2_8sh8u")
+collision_enabled = false
+
+[node name="Entry_default" type="Marker2D" parent="." unique_id=1555013749]
+position = Vector2(96, 224)
+script = ExtResource("3_igigp")
+is_default_respawn = true
+
+[node name="Entry_from_prev" type="Marker2D" parent="." unique_id=1879465185]
+position = Vector2(64, 224)
+script = ExtResource("3_igigp")
+entry_id = &"from_prev"
+
+[node name="Entry_from_next" type="Marker2D" parent="." unique_id=385071948]
+position = Vector2(1280, 224)
+script = ExtResource("3_igigp")
+entry_id = &"from_next"
+
+[node name="ExitLeft" type="Area2D" parent="." unique_id=1776538704]
+position = Vector2(32, 128)
+script = ExtResource("4_er7fc")
+size_tiles = Vector2(1, 12)
+direction = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1347279528]
+shape = SubResource("RectangleShape2D_ovfqa")
+
+[node name="ExitRight" type="Area2D" parent="." unique_id=1362232630]
+position = Vector2(1280, 128)
+script = ExtResource("4_er7fc")
+size_tiles = Vector2(1, 12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1869483687]
+shape = SubResource("RectangleShape2D_x4cld")
+
+[node name="Background" type="Parallax2D" parent="." unique_id=1748673147 instance=ExtResource("5_ty8xg")]
+z_index = -100
+script = ExtResource("6_i77a6")
+
+[node name="LevelBoundsGuide" type="Node2D" parent="." unique_id=251252238 instance=ExtResource("7_tny5g")]
+script = ExtResource("8_sa6o1")
+
+[node name="DesignRuler" type="Node2D" parent="." unique_id=1175316960 instance=ExtResource("9_jpk4t")]
+position = Vector2(160, 288)
+script = ExtResource("10_mwk6f")
+profile = ExtResource("11_yxxmi")

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3 uid="uid://bqenemysentinel01"]
+
+[ext_resource type="Script" path="res://src/actors/enemy/EnemyData.gd" id="1_ed"]
+
+[resource]
+script = ExtResource("1_ed")
+display_name = "驻留外物"
+enemy_id = &"sentinel"
+max_hp = 5
+invulnerability_time = 0.15
+knockback_resistance = 0.7
+contact_damage = 1
+contact_knockback = 380.0
+contact_interval = 0.9
+move_speed_tiles = 0.0
+gravity_scale = 1.0
+patrol_range_tiles = 0.0
+turn_at_ledge = false
+turn_at_wall = false
+corpse_duration = 0.4
+placeholder_color = Color(0.62, 0.2, 0.42, 1)
+size_tiles = Vector2(1.5, 2.5)

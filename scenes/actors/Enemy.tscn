@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://bqwanchaoenemy01"]
+
+[ext_resource type="Script" path="res://src/actors/enemy/Enemy.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://src/core/combat/Health.gd" id="2_health"]
+[ext_resource type="Script" path="res://src/core/combat/Hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Script" path="res://src/core/combat/Hitbox.gd" id="4_hitbox"]
+
+[sub_resource type="RectangleShape2D" id="RectBody"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectHurt"]
+size = Vector2(32, 32)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+floor_snap_length = 6.0
+script = ExtResource("1_enemy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectBody")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="ColorRect" parent="Visual"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.85, 0.25, 0.25, 1)
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_health")
+base_max_hp = 3
+invulnerability_time = 0.15
+auto_regen = false
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectHurt")
+
+[node name="ContactHitbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 2
+monitorable = false
+script = ExtResource("4_hitbox")
+damage = 1
+knockback_force = 320.0
+continuous = true
+tick_interval = 0.8
+active_on_ready = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactHitbox"]
+shape = SubResource("RectHurt")
+
+[node name="LedgeProbe" type="RayCast2D" parent="."]
+position = Vector2(16, 0)
+target_position = Vector2(0, 32)
+collision_mask = 1

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://nycnqcfb2x53"]
+
+[ext_resource type="Script" uid="uid://bvamg0reb2kcy" path="res://src/world/interactables/Npc.gd" id="1_npc"]
+
+[sub_resource type="RectangleShape2D" id="RectNpc"]
+size = Vector2(48, 96)
+
+[node name="Npc" type="Area2D"]
+script = ExtResource("1_npc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -48)
+shape = SubResource("RectNpc")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="ColorRect" parent="Visual"]
+offset_left = -24.0
+offset_top = -96.0
+offset_right = 24.0
+offset_bottom = -28.8
+color = Color(0.42, 0.52, 0.62, 1)
+
+[node name="Head" type="ColorRect" parent="Visual"]
+offset_left = -13.5
+offset_top = -96.0
+offset_right = 13.5
+offset_bottom = -67.2
+color = Color(0.51, 0.63, 0.76, 1)

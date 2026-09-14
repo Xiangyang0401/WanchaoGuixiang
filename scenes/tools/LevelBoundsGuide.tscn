@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b8lv3nfhq2gx"]
+
+[ext_resource type="Script" path="res://src/debug/LevelBoundsGuide.gd" id="1_guide"]
+
+[node name="LevelBoundsGuide" type="Node2D"]
+script = ExtResource("1_guide")

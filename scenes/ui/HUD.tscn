@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqwanchaohud01"]
+
+[ext_resource type="Script" uid="uid://b28a81tc8yghw" path="res://src/ui/HealthBar.gd" id="1_hb"]
+[ext_resource type="Script" uid="uid://cb5ure4jfh55n" path="res://src/ui/InteractPrompt.gd" id="2_ip"]
+[ext_resource type="Script" uid="uid://cqp1sk5odxqd5" path="res://src/debug/DebugPanel.gd" id="3_dp"]
+[ext_resource type="Script" uid="uid://cbhqtbixscqdk" path="res://src/ui/TutorialHints.gd" id="4_th"]
+[ext_resource type="Script" uid="uid://6s6pqdexwdol" path="res://src/ui/DialogPanel.gd" id="5_dialog"]
+
+[node name="HUD" type="CanvasLayer"]
+layer = 10
+
+[node name="HealthBar" type="HBoxContainer" parent="."]
+anchors_preset = 0
+offset_left = 32.0
+offset_top = 28.0
+offset_right = 300.0
+offset_bottom = 60.0
+script = ExtResource("1_hb")
+points_per_heart = 1
+heart_size = Vector2(28, 28)
+heart_spacing = 6
+
+[node name="InteractPrompt" type="Control" parent="."]
+mouse_filter = 2
+script = ExtResource("2_ip")
+key_hint = "F"
+
+[node name="DebugPanel" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -472.0
+offset_top = 12.0
+offset_right = -12.0
+grow_horizontal = 0
+script = ExtResource("3_dp")
+
+[node name="TutorialHints" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("4_th")
+
+[node name="DialogPanel" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_dialog")

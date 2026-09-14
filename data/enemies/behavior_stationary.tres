@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="StationaryBehavior" load_steps=2 format=3 uid="uid://bqbehstation01"]
+
+[ext_resource type="Script" path="res://src/actors/enemy/behaviors/StationaryBehavior.gd" id="1_sb"]
+
+[resource]
+script = ExtResource("1_sb")
+face_player = true

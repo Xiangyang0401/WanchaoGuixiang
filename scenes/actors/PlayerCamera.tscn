@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqwanchaocam01"]
+
+[ext_resource type="Script" path="res://src/world/PlayerCamera.gd" id="1_cam"]
+
+[node name="PlayerCamera" type="Camera2D"]
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+script = ExtResource("1_cam")
+lookahead_smoothing = 3.0
